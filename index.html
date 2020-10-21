@@ -1,8 +1,105 @@
 <html>
   <head>
+    <style>
+        #zombie_map {
+            height: 100%;
+            width: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            background-color: grey;
+        }
+        </style>  
     <title>My page title</title>
   </head>
   <body>
-    Items I want to appear on my page will go here
+    My zombie map
+    <div id="zombie_map"></div> 
+    <script>
+        var zombie_map;
+        var all_markers = [];
+        var data = `42.486282250703184 -70.88744043920899 zombie.png
+                    42.489938406529326 -70.87962984655762 weapons.png
+                    42.493561722967854 -70.87862133596802 zombie.png
+                    42.49530210601636 -70.8757889232483 zombie.png
+                    42.49349843539895 -70.87351441000366 zombie.png
+                    42.493783228954726 -70.86810707662964 zombie.png
+                    42.48701111988187 -70.87677597616577 zombie.png
+                    42.48783393861834 -70.89415669058228 zombie.png
+                    42.49175800215711 -70.89286923025513 zombie.png
+                    42.48875168520997 -70.88862061117554 hospital.png
+                    42.492011159093195 -70.88827728842163 weapons.png
+                    42.49707408263176 -70.87832092855835 weapons.png
+                    42.49099852520088 -70.86012482260132 weapons.png
+                    42.48340324842936 -70.86909412954712 weapons.png
+                    42.48482743306909 -70.88226914022827 weapons.png
+                    42.484637543656994 -70.88317036245728 zombie.png
+                    42.485998405040974 -70.88312744711304 zombie.png
+                    42.485935109819074 -70.88085293386841 zombie.png
+                    42.48466919193235 -70.88123917196656 zombie.png
+                    42.48517556216101 -70.88543629341886 hospital.png
+                    42.49454267209662 -70.8658668964462 hospital.png
+                    42.48463656158733 -70.89224695776367 zombie.png
+                    42.48469985812305 -70.87881445501709 zombie.png
+                    42.490238057040855 -70.87057470892334 zombie.png
+                    42.507251012628934 -70.85833836295276 zombie.png
+                    42.507251012628934 -70.86692143180042 zombie.png
+                    42.500227239324005 -70.87593365409046 zombie.png
+                    42.49358240318398 -70.88400173880726 zombie.png
+                    42.505699390185534 -70.91286978902849 zombie.png
+                    42.49278990594173 -70.91793379964861 zombie.png
+                    42.484688476618246 -70.84257445516619 zombie.png
+                    42.502080273751666 -70.8334072862169 zombie.png
+                    42.48435966677819 -70.83469474654405 zombie.png
+                    42.482650628541904 -70.83460891585557 zombie.png
+                    42.49366361148628 -70.84344947676865 zombie.png
+                    42.490372578343944 -70.84104621749131 zombie.png
+                    42.50157404037403 -70.85263336043565 zombie.png
+                    42.50545199274689 -70.84945678710938 zombie.png
+                    42.49138522237034 -70.85606658797471 weapons.png
+                    42.490807672548094 -70.90688109014893 hospital.png`;
+        
+        var markers = data.split("\n");
+ 
+        function initMap() {
+    
+            zombie_map = new google.maps.Map(document.getElementById('zombie_map'), {
+                zoom: 16,
+                center: {lat: 42.490261, lng: -70.880059}
+            });
+            for(var i=0; i < markers.length; i++) {
+              var marker_data = markers[i].trim();
+              marker_data = marker_data.split(" ");
+              var latitude = marker_data[0];
+              var longitude = marker_data[1];
+              var emoji = marker_data[2];
+              var marker_position = new google.maps.LatLng(latitude, longitude);
+              var marker = new google.maps.Marker({
+                position: marker_position,
+                map: zombie_map,
+                icon: emoji
+              });
+              all_markers.push(marker);
+            }
+            if(navigator.geolocation) {
+              navigator.geolocation.watchPosition(set_my_position);
+            }
+            else {
+                alert("Geolocation doesn't work in your browser");
+            }
+        }
+        function set_my_position(position) {
+          var pos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+          var marker = new google.maps.Marker({
+                position: pos,
+                map: zombie_map,
+                icon: "player.png"
+              });         
+        }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxxcChhlEk3BS2sxGDKTUN8XGiZ78-oII&callback=initMap">
+    </script>
   </body>
 </html>
+
