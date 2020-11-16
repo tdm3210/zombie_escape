@@ -110,7 +110,7 @@
                 icon: "player.png"
               });         
           old_position=marker;
-          for (var i=0; i< all_markers.length, i++) {
+          for (var i=0; i< all_markers.length; i++) {
             var distance = google.maps.geometry.spherical.computeDistanceBetween(pos, all_markers[i].getPosition());
             if( distance < tolerance ){
               var what_is_it = all_markers[i].getIcon();
